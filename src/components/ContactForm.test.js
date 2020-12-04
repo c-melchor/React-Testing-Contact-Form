@@ -24,7 +24,7 @@ test("can user fill out form and submit", async () => {
   const button = screen.getByTestId("submit");
   userEvent.click(button);
 
-  const firstNameRender = await screen.findByText(/bob/);
+  const firstNameRender = await screen.findByText(/bob/i);
   expect(firstNameRender).toBeInTheDocument();
 });
 
