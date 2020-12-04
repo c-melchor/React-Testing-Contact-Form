@@ -7,6 +7,7 @@ const ContactForm = () => {
   const { register, errors, handleSubmit } = useForm({
     mode: "onBlur"
   });
+
   const onSubmit = async data => {
     const helloData = await axios.post(
       "https://reqres.in/api/users?page=2",
@@ -26,7 +27,9 @@ const ContactForm = () => {
             ref={register({ required: true, maxLength: 3 })}
           />
           {errors.firstName && (
-            <p>Looks like there was an error: {errors.firstName.type}</p>
+            <p data-testid="nameError">
+              Looks like there was an error: {errors.firstName.type}
+            </p>
           )}
         </div>
 
@@ -64,7 +67,14 @@ const ContactForm = () => {
           />
         </div>
         {data && (
-          <pre style={{ textAlign: "left", color: "white" }}>
+          <pre
+            style={{
+              textAlign: "center",
+              color: "white",
+              background: "blue",
+              textDecoration: "none"
+            }}
+          >
             {JSON.stringify(data, null, 2)}
           </pre>
         )}

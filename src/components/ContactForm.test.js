@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 
 import ContactForm from "./ContactForm";
@@ -26,6 +26,22 @@ test("can user fill out form and submit", async () => {
 
   const firstNameRender = await screen.findByText(/bob/i);
   expect(firstNameRender).toBeInTheDocument();
+});
+
+test("if name is too long", async () => {
+  const { queryByTestId } = render(<ContactForm />);
+  const nameInput = screen.getByPlaceholderText("Edd");
+  const lastNameInput = screen.getByPlaceholderText("Burke");
+
+  //   console.log(nameInput.value, "name input");
+  await act(async () => {
+    userEvent.type(nameInput, "Christina");
+    fireEvent.blur(nameInput);
+    userEvent.click(lastNameInput);
+  });
+  expect(queryByTestId("nameError")).toBeTruthy();
+  // const nameErr = await screen.getByTestId("nameError");
+  //   expect(nameErr).toBeInTheDocument();
 });
 
 /*async await is a simplified way to do promises
